@@ -1,0 +1,71 @@
+{% extends "layouts/log_filter_base.html" %}
+
+{% block title %} Dashboard {% endblock %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}
+
+
+{% endblock stylesheets %}
+
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-10 col-md-10">
+    </div>
+    <div class="col-lg-2 col-md-2">
+        <a href="{% url 'filter_pdf' %}">
+            <button type="button" class="btn btn-primary">Export as PDF</button>
+        </a>
+    </div>
+</div>
+<div class="card">
+    <div class="card-header card-header-warning">
+        <h4 class="card-title ">Advance Filter</h4>
+        <p class="card-category">Filter records based on data items</p>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <form method="GET">
+                {% csrf_token %}
+                {% for i in filter.form %}
+                {{i.label}}
+                {{i}}
+                {% endfor %}
+                <div class="input-group">
+                    <select id="dtype" name="dtype" class='form-control' required>
+                        <option value="" selected>Select Department...</option>
+                        {% for d in intent_list %}
+                        <option value="{{ d }}">{{ d }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary">Search</button>
+            </form>
+            <table class="table table-hover">
+                <thead class="text-warning">
+                <th>Event ID</th>
+                <th>User Email</th>
+                <th>Question</th>
+                <th>Answer</th>
+                <th>DateTime</th>
+                <th>Department</th>
+                </thead>
+                <tbody>
+                {% for rec in filter.qs %}
+                <tr>
+                    <td>{{rec.event_type_id}}</td>
+                    <td>{{rec.user_email}}</td>
+                    <td style="word-wrap: break-word;width:170px">{{rec.event_question}}</td>
+                    <td style="word-wrap: break-word;width:180px">{{rec.event_answer}}</td>
+                    <td>{{rec.user_datetime}}</td>
+                    <td>{{rec.intent}}</td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

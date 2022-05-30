@@ -1,0 +1,48 @@
+{% extends "layouts/user_adoreta_base.html" %}
+
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+<div class="card">
+     <div class="card-header card-header-warning">
+        <h4 class="card-title ">Advance Filter</h4>
+        <p class="card-category">Filter records based on data items</p>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <h4><strong>Log Details</strong></h4>
+            <form method="GET">
+                {% csrf_token %}
+                {{ filter.form.as_p  }}
+                <button type="submit">Search</button>
+            </form>
+            <table class="table table-hover">
+                <thead class="">
+                <th>Sr.No</th>
+                <th>Event ID</th>
+                <th>User Email</th>
+                <th>User IP</th>
+                <th>Question</th>
+                <th>Answer</th>
+                <th>DateTime</th>
+                <th>Department</th>
+                </thead>
+                <tbody>
+                {% for rec in filter.qs %}
+                <tr>
+                    <td>{{rec.id}}</td>
+                    <td>{{rec.event_type_id}}</td>
+                    <td>{{rec.user_email}}</td>
+                    <td>{{rec.user_ip}}</td>
+                    <td style="word-wrap: break-word;min-width: 160px;max-width: 160px;">{{rec.event_question}}</td>
+                    <td style="word-wrap: break-word;min-width: 160px;max-width: 160px;">{{rec.event_answer}}</td>
+                    <td>{{rec.user_datetime}}</td>
+                    <td>{{rec.intent}}</td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock content%}

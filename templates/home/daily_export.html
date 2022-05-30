@@ -1,0 +1,132 @@
+<html>
+<head>
+    <style>
+
+	table, td, th {
+		border: 1px solid black;
+	}
+
+	th {
+	 	padding: 5px;
+	 	background-color: #a2a2a2;
+	 	color: white;
+	 	text-align: center;
+	 	font-size: 10px;
+	}
+
+	td{
+		text-align: center;
+		padding: 2px;
+	}
+
+    @page {
+        size: a4 portrait;
+		margin: 2.5cm 1cm 3.5cm 1cm;
+
+    }
+
+
+
+
+
+    </style>
+</head>
+
+<body>
+<center><img width="100" height="100px" src="static/assets/images/zayed_logo.png" alt="Zayed University"></center>
+<!-- Content for Static Frame 'header_frame' -->
+<div id="header_content">
+    <h1 style="text-align: center; color: #6c2e3d; font-size: 20px;">Zayed University, United Arab Emirates</h1>
+</div>
+
+<h4><strong>Table for User Statistics</strong></h4>
+
+
+
+<table>
+
+    <thead>
+    <tr>
+        <th>Total Users</th>
+        <th>Engaged Users</th>
+        <th>New Users</th>
+        <th>Reset Count</th>
+        <th>Live Chat Count</th>
+        <th>No Answer</th>
+        <th>Right Answer</th>
+        <th>Wrong Answer</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>{{total_users}}</td>
+        <td>{{engaged_users}}</td>
+        <td>{{new_users}}</td>
+        <td>{{reset_count}}</td>
+        <td>{{live_count}}</td>
+        <td>{{no_answer_count}}</td>
+        <td>{{rt_answer_count}}</td>
+        <td>{{wr_answer_count}}</td>
+        </td>
+    </tr>
+    </tbody>
+
+</table>
+<h4><strong>Table for Repeated Interacted Users Data</strong></h4>
+<table>
+    <thead>
+    <tr>
+        <th>Serial No</th>
+        <th>User Email</th>
+        <th>Bot Interaction</th>
+        <th>Date Time</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% if repeated_users|length < 1 %}
+    <tr>
+        <td colspan=4>Sorry No Record Found, Please refresh your search</td>
+    </tr>
+    {% else %}
+    {% for count in repeated_users %}
+    <tr>
+        <td>{{ forloop.counter}}</td>
+        <td>{{ count.0}}</td>
+        <td>{{ count.1}}</td>
+        <td>{{ count.2|upper}}</td>
+    </tr>
+    {% endfor %}
+    {% endif %}
+    </tbody>
+</table>
+<h4><strong>Table for Busiest period of the Chatbot</strong></h4>
+<table>
+    <thead>
+    <tr>
+        <th>Serial No</th>
+        <th>Department</th>
+        <th>Count</th>
+        <th>Time Period</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% if busy_period_count_month|length < 1 %}
+    <tr>
+        <td colspan=4>Sorry No Record Found, Please refresh your search</td>
+    </tr>
+    {% else %}
+    {% for count in busy_period_count_month %}
+    <tr>
+        <td>{{ forloop.counter}}</td>
+        <td>{{ count.0|upper}}</td>
+        <td>{{ count.2}}</td>
+        <td>{{ count.1|upper}}</td>
+    </tr>
+    {% endfor %}
+    {% endif %}
+    </tbody>
+</table>
+
+
+</body>
+</html>

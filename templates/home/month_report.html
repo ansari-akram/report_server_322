@@ -1,0 +1,523 @@
+{% extends "layouts/month_base.html" %}
+
+
+
+{% block title %} Monthly Chart {% endblock %}
+
+
+
+<!-- Specific Page CSS goes HERE  -->
+
+{% block stylesheets %}{% endblock stylesheets %}
+
+
+
+
+
+{% block content %}
+
+<!-- Bifurcation -->
+
+<!-- User Report -->
+<div class="card">
+    <div class="card-header card-header-info">
+
+        <h4 class="card-title ">User Report</h4>
+
+    </div>
+    <div class="row">
+        <div class="col-lg-1 col-md-2 col-sm-2"></div>
+        <div class="col-lg-3 col-md-4 col-sm-4">
+
+            <div class="card card-stats">
+
+                <div class="card-header card-header-warning card-header-icon">
+
+                    <div class="card-icon">
+
+                        <i class="material-icons">addchart</i>
+
+                    </div>
+
+                    <p class="card-category">Total Users</p>
+
+                    <h3 class="card-title">{{ total_users }}</h3>
+
+                </div>
+
+                <div class="card-footer">
+
+                    <div class="stats">
+
+                        <i class="material-icons">date_range</i>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+        <div class="col-lg-3 col-md-4 col-sm-4">
+
+            <div class="card card-stats">
+
+                <div class="card-header card-header-success card-header-icon">
+
+                    <div class="card-icon">
+
+                        <i class="material-icons">people_alt</i>
+
+                    </div>
+
+                    <p class="card-category">Engaged Users</p>
+
+                    <h3 class="card-title">{{ engaged_users }}</h3>
+
+                </div>
+
+                <div class="card-footer">
+
+                    <div class="stats">
+
+                        <i class="material-icons">date_range</i>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+        <div class="col-lg-3 col-md-4 col-sm-4">
+
+            <div class="card card-stats">
+
+                <div class="card-header card-header-danger card-header-icon">
+
+                    <div class="card-icon">
+
+                        <i class="material-icons">group_add</i>
+
+                    </div>
+
+                    <p class="card-category">New Users</p>
+
+                    <h3 class="card-title">{{ new_users }}</h3>
+
+                </div>
+
+                <div class="card-footer">
+
+                    <div class="stats">
+
+                        <i class="material-icons">date_range</i>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+        </div>
+        <div class="col-lg-1 col-md-2 col-sm-2"></div>
+    </div>
+    <div class="card-body">
+
+        <div class="table-responsive">
+            <h4><strong> Repeated Interacted Users Data</strong></h4>
+             <table class="table table-hover">
+
+                <thead class="">
+
+                <th>
+
+                    Serial No
+
+                </th>
+
+                <th>
+
+                    User Email
+
+                </th>
+
+                <th>
+
+                    Bot Interaction
+
+                </th>
+
+                <th>
+
+                    Date Time
+
+                </th>
+
+                </thead>
+
+                <tbody>
+
+                {% for count in repeated_users %}
+
+                <tr>
+
+                    <td>
+
+                        {{ forloop.counter}}
+
+                    </td>
+
+                    <td>
+
+                        {{ count.0}}
+
+                    </td>
+
+                    <td>
+
+                        {{ count.1}}
+
+                    </td>
+
+                    <td>
+
+                        {{ count.2|upper}}
+
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+</div>
+
+<!-- Q and A Reports -->
+<div class="card">
+
+    <div class="card-header card-header-info">
+
+        <h4 class="card-title ">Q & A Report</h4>
+
+        <p class="card-category">Q & A report for {{ dept_name }} department</p>
+
+    </div>
+    <!--     no, right, wrong -->
+    <div class="row">
+        <div class="col-lg-1 col-md-2 col-sm-2"></div>
+        <div class="col-lg-3 col-md-4 col-sm-4">
+
+            <div class="card card-stats">
+
+                <div class="card-header card-header-warning card-header-icon">
+
+                    <div class="card-icon">
+
+                        <i class="material-icons">feedback</i>
+
+                    </div>
+
+                    <p class="card-category">{{ no_answer }}</p>
+
+                    <h3 class="card-title">{{ no_answer_count }}</h3>
+
+                </div>
+
+                <div class="card-footer">
+
+                    <div class="stats">
+
+                        <i class="material-icons"></i>No answer count
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+        <div class="col-lg-3 col-md-4 col-sm-4">
+
+            <div class="card card-stats">
+
+                <div class="card-header card-header-success card-header-icon">
+
+                    <div class="card-icon">
+
+                        <i class="material-icons">task_alt</i>
+
+                    </div>
+
+                    <p class="card-category">{{ rt_answer }}</p>
+
+                    <h3 class="card-title">{{ rt_answer_count }}</h3>
+
+                </div>
+
+                <div class="card-footer">
+
+                    <div class="stats">
+
+                        <i class="material-icons"></i>Right answer count
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+        <div class="col-lg-3 col-md-4 col-sm-4">
+
+            <div class="card card-stats">
+
+                <div class="card-header card-header-danger card-header-icon">
+
+                    <div class="card-icon">
+
+                        <i class="material-icons">highlight_off</i>
+
+                    </div>
+
+                    <p class="card-category">{{ wr_answer }}</p>
+
+                    <h3 class="card-title"> {{ wr_answer_count}}</h3>
+
+                </div>
+
+                <div class="card-footer">
+
+                    <div class="stats">
+
+                        <i class="material-icons"></i>Wrong answer count
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+        </div>
+        <div class="col-lg-1 col-md-2 col-sm-2"></div>
+    </div>
+    <!--    bar and line chart -->
+    <div class="row">
+
+        <div class="col-lg-12 col-md-12">
+
+            <div id="container_bar"></div>
+
+        </div>
+    </div>
+     <div class="row">
+        <div class="col-lg-12 col-md-12">
+
+            <div id="container_line"></div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- Miscellaneous Report -->
+<div class="card">
+
+    <div class="card-header card-header-info">
+
+        <h4 class="card-title ">Miscellaneous Report</h4>
+
+        <p class="card-category">Busiest report for {{ dept_name }} department</p>
+
+    </div>
+    <div class="row">
+
+        <!--reset count-->
+        <div class="col-lg-2 col-md-2 col-sm-2"></div>
+        <div class="col-lg-4 col-md-6 col-sm-6">
+
+            <div class="card card-stats">
+
+                <div class="card-header card-header-rose card-header-icon">
+
+                    <div class="card-icon">
+
+                        <i class="material-icons">restart_alt</i>
+
+                    </div>
+
+                    <p class="card-category"> Reset Count</p>
+
+                    <h3 class="card-title">{{ reset_month }}</h3>
+
+                </div>
+
+                <div class="card-footer">
+
+                    <div class="stats">
+
+                        <i class="material-icons">date_range</i>Last 30 Days
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+        <!--live chat count-->
+        <div class="col-lg-4 col-md-6 col-sm-6">
+
+            <div class="card card-stats">
+
+                <div class="card-header card-header-info card-header-icon">
+
+                    <div class="card-icon">
+
+                        <i class="material-icons">live_help</i>
+
+                    </div>
+
+                    <p class="card-category"> Live Chat Count</p>
+
+                    <h3 class="card-title">{{live_count}}</h3>
+
+                </div>
+
+                <div class="card-footer">
+
+                    <div class="stats">
+
+                        <i class="material-icons">date_range</i>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+        <div class="col-lg-1 col-md-2 col-sm-2"></div>
+    </div>
+
+    <div class="card-body">
+
+        <div class="table-responsive">
+            <h4><strong>Table for Busiest period of the Chatbot</strong></h4>
+           <table class="table table-hover">
+
+                <thead class="">
+
+                <th>
+
+                    Serial No
+
+                </th>
+
+                <th>
+
+                    Department
+
+                </th>
+
+                <th>
+
+                    Count
+
+                </th>
+
+                <th>
+
+                    Time Period
+
+                </th>
+
+                </thead>
+
+                <tbody>
+
+                {% for count in busy_period_count_month %}
+
+                <tr>
+
+                    <td>
+
+                        {{ forloop.counter}}
+
+                    </td>
+
+                    <td>
+
+                        {{ count.0|upper}}
+
+                    </td>
+
+                    <td>
+
+                        {{ count.2}}
+
+                    </td>
+
+                    <td>
+
+                        {{ count.1|upper}}
+
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+{% endblock content %}
+
+
+<!-- Specific Page JS goes HERE  -->
+
+{% block javascripts %}
+
+<script>
+
+    $(document).ready(function() {
+
+      // Javascript method's body can be found in assets/js/demos.js
+
+      md.initDashboardPageCharts();
+
+    });
+
+
+</script>
+
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+<script src="https://code.highcharts.com/highcharts.src.js"></script>
+
+<script>
+
+  Highcharts.chart('container_bar', {{ bar_chart|safe }});
+
+  Highcharts.chart('container_line', {{ line_chart|safe }});
+
+</script>
+
+{% endblock javascripts %}

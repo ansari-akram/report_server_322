@@ -1,0 +1,203 @@
+{% extends "layouts/log_filter_base.html" %}
+
+{% block title %} Dashboard {% endblock %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}
+
+
+{% endblock stylesheets %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-4 col-md-4">
+    </div>
+    <div class="col-lg-2 col-md-2">
+        <a href="{% url 'filter_pdf' %}" target="_blank">
+            <button type="button" class="btn btn-primary">Export as PDF</button>
+        </a>
+    </div>
+    <div class="col-lg-2 col-md-2">
+        <a href="{% url 'pdf_view' %}" target="_blank">
+            <button type="button" class="btn btn-primary">Export All as PDF</button>
+        </a>
+    </div>
+    <div class="col-lg-2 col-md-2">
+        <a href="{% url 'filter_excel' %}" target="_blank">
+            <button type="button" class="btn btn-primary">Export as Excel</button>
+        </a>
+    </div>
+    <div class="col-lg-2 col-md-2">
+        <a href="{% url 'export_excel' %}" target="_blank">
+            <button type="button" class="btn btn-primary">Export All as Excel</button>
+        </a>
+    </div>
+</div>
+<br>
+<a id="button" onclick="showhide()">Show/Hide Form</a>
+<div class="row">
+    <div class="col-md-7">
+        <div class="card" id="newpost">
+            <div class="card-header card-header-warning">
+                <h4 class="card-title">
+                    Filter Form
+                </h4>
+            </div>
+            <div class="card-body">
+                <form method="GET" action=".">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="bmd-label-floating">Select Event</label>
+                                <select id="etype" name="etype" class='form-control'>
+                                    <option value="" selected>Select Event...</option>
+                                    {% for e in event_ %}
+                                    <option value="{{ e.id }}">{{ e.description }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="bmd-label-floating">Email</label>
+                                <input type="search" class='form-control' id="email" name="email" placeholder="Email">
+                            </div>
+                        </div>
+                    </div>
+                    <br/>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="bmd-label-floating">Question</label>
+                                <input type="search" class='form-control' id="quest" name="quest"
+                                       placeholder="Question">
+                            </div>
+                        </div>
+                    </div>
+                    <br/>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="bmd-label-floating">Answer</label>
+                                <input type="search" class='form-control' id="ans" name="ans"
+                                       placeholder="Answer">
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label for="date_min">From Date :</label>
+                            <input type="date" class="form-control" id="date_min" name="date_min">
+                        </div>
+                        <div class="col-md-12">
+                            <label for="date_max">To Date :</label>
+                            <input type="date" class="form-control" id="date_max" name="date_max">
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="bmd-label-floating">Select Department</label>
+                                <select id="dtype" name="dtype" class='form-control'>
+                                    <option value="" selected>Select Department...</option>
+                                    {% for d in dept_list %}
+                                    <option value="{{ d }}">{{ d }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <br/>
+                    <button type="submit" class="btn btn-primary">Search</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<br>
+<div class="row">
+    <div class="col-lg-12 col-md-12">
+        <!--        <div class="card">-->
+        <table class="table table-hover">
+            <thead class="text-warning">
+            <th>Event ID</th>
+            <th>User Email</th>
+            <th>Question</th>
+            <th>Answer</th>
+            <th>DateTime</th>
+            <th>Department</th>
+            </thead>
+            <tbody>
+            {% if log_|length < 1 %}
+            <tr>
+                <td colspan=4>Sorry No Record Found, Please refresh your search</td>
+            </tr>
+            {% else %}
+            {% for rec in log_ %}
+            <tr>
+                <td>{{rec.event_type_id}}</td>
+                <td>{{rec.user_email}}</td>
+                <td style="word-wrap: break-word;width:170px">{{rec.event_question}}</td>
+                <td style="word-wrap: break-word;width:180px">{{rec.event_answer}}</td>
+                <td>{{rec.user_datetime}}</td>
+                <td>{{rec.intent}}</td>
+            </tr>
+            {% endfor %}
+            {% endif %}
+
+            </tbody>
+        </table>
+            {% if pages.has_other_pages %}
+            <ul class="pagination">
+                {% if pages.has_previous %}
+                <li style="padding-left:3em"><a href="?page={{ pages.previous_page_number }}">&laquo;</a></li>
+                {% else %}
+                <li class="disabled" style="padding-left:3em"><span>&laquo;</span></li>
+                {% endif %}
+                {% for i in pages.paginator.page_range %}
+                {% if pages.number == i %}
+                <li class="active" style="padding-left:3em"><span>{{ i }} <span class="sr-only">(current)</span></span>
+                </li>
+                {% else %}
+                <li style="padding-left:3em"><a href="?page={{ i }}">{{ i }}</a></li>
+                {% endif %}
+                {% endfor %}
+                {% if pages.has_next %}
+                <li style="padding-left:3em"><a href="?page={{ pages.next_page_number }}">&raquo;</a></li>
+                {% else %}
+                <li class="disabled" style="padding-left:3em"><span>&raquo;</span></li>
+                {% endif %}
+            </ul>
+            {% endif %}
+        <!--        </div>-->
+    </div>
+</div>
+{% endblock %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+<script>
+    function showhide()
+    {
+         var div = document.getElementById("newpost");
+         if (div.style.display !== "none")
+         {
+             div.style.display = "none";
+         }
+         else
+         {
+             div.style.display = "block";
+         }
+    }
+
+
+
+</script>
+{% endblock javascripts %}

@@ -1,0 +1,68 @@
+<html>
+<head>
+    <style>
+
+	table, td, th {
+		border: 1px solid black;
+	}
+
+	th {
+	 	padding: 5px;
+	 	background-color: #a2a2a2;
+	 	color: white;
+	 	text-align: center;
+	 	font-size: 10px;
+	}
+
+	td{
+		text-align: center;
+		padding: 2px;
+	}
+
+    @page {
+        size: a4 portrait;
+		margin: 2.5cm 1cm 3.5cm 1cm;
+
+    }
+    </style>
+</head>
+
+<body>
+<center><img width="100" height="100px" src="static/assets/images/zayed_logo.png" alt="Zayed University"></center>
+<!-- Content for Static Frame 'header_frame' -->
+<div id="header_content">
+    <h1 style="text-align: center; color: #6c2e3d; font-size: 20px;">Zayed University, United Arab Emirates</h1>
+</div>
+
+<!-- HTML Content -->
+
+<table>
+    <thead>
+    <tr>
+        <th>Event ID</th>
+        <th>Question</th>
+        <th>Answer</th>
+        <th>DateTime</th>
+        <th>Department</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% if log_|length < 1 %}
+    <tr>
+        <td>Sorry No Record Found, Please refresh your search</td>
+    </tr>
+    {% else %}
+    {% for rec in log_ %}
+    <tr>
+        <td style="word-wrap: break-word;width:50px">{{rec.event_type_id}}</td>
+        <td style="word-wrap: break-word;width:170px">{{rec.user_email}} <br><br>{{rec.event_question}}</td>
+        <td style="word-wrap: break-word;width:180px">{{rec.event_answer}}</td>
+        <td style="word-wrap: break-word;width:70px">{{rec.user_datetime}}</td>
+        <td style="word-wrap: break-word;width:150px">{{rec.intent}}</td>
+    </tr>
+    {% endfor %}
+    {% endif %}
+    </tbody>
+</table>
+</body>
+</html>

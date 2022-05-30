@@ -1,0 +1,134 @@
+{% extends "layouts/base_admin.html" %}
+
+{% block title %} Dashboard {% endblock %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}
+<style>
+.dropbtn {
+  background-color: #fb8c00;
+  color: white;
+  padding: 16px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-content a:hover {background-color: #f1f1f1}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.dropdown:hover .dropbtn {
+  background-color: #fb8c00;
+}
+
+
+
+</style>
+
+{% endblock stylesheets %}
+
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-12 col-md-12">
+        <div class="card">
+            <div class="card-header card-header-warning">
+                <h4 class="card-title">Overall Reports</h4>
+            </div>
+            <div class="card-body table-responsive">
+                <table class="table table-hover">
+                    <thead class="text-warning">
+                    <th>Sr. No.</th>
+                    <th>Report Name</th>
+                    <th>Export PDF</th>
+                    <th>Export Excel</th>
+                    </thead>
+                    <tbody>
+                    {% if reports|length == 0 %}
+                    <tr>
+                        <td colspan="2">No Reports Found</td>
+                    </tr>
+                    {% else %}
+                    {% for report in reports %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td><a href="{% url 'show' report %}" target="_blank">{{ report }}</a><i class="material-icons"
+                                                                                                 style="top: 7px; left: 5px; position: relative;">launch</i>
+                        </td>
+                         <td><a href="{% url 'export_pdf' report %}" target="_blank">Export {{ report }} PDF</a><i class="material-icons"
+                                                                                                 style="top: 7px; left: 5px; position: relative;">file_download</i>
+                        </td>
+
+
+                    </tr>
+                    {% endfor %}
+                    {% endif %}
+
+                    </tbody>
+
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12 col-md-12">
+        <div class="card">
+            <div class="card-header card-header-warning">
+                <h4 class="card-title">Department Reports</h4>
+            </div>
+            <div class="card-body table-responsive">
+                <table class="table table-hover">
+                    <thead class="text-warning">
+                    <th>Sr. No.</th>
+                    <th>Department</th>
+                    </thead>
+                    <tbody>
+                    {% if depts|length == 0 %}
+                    <tr>
+                        <td colspan="2">No Departments Found</td>
+                    </tr>
+                    {% else %}
+                    {% for dpt in depts %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td><a href="{% url 'department_data' dpt %}">{{ dpt }}</a><i class="material-icons"
+                                                                                              style="top: 7px; left: 5px; position: relative;">launch</i>
+                        </td>
+                    </tr>
+                    </tr>
+                    {% endfor %}
+                    {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

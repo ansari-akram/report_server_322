@@ -1,0 +1,47 @@
+<div class="sidebar" data-color="purple" data-background-color="white" data-image="/static/assets/img/sidebar-1.jpg">
+    <div class="logo">
+        <a target="_blank" rel="noopener noreferrer"
+           href="" class="simple-text logo-normal">
+            User Panel
+        </a>
+    </div>
+    <div class="sidebar-wrapper">
+        <ul class="nav">
+            {% if user.is_superuser %}
+
+            <li class="nav-item {% if 'page-user' in segment %} active {% endif %}">
+                <a class="nav-link" href="#">
+                    <i class="material-icons">person</i>
+                    <p>Users</p>
+                </a>
+            </li>
+            <li class="nav-item {% if 'page-user' in segment %} active {% endif %}">
+                <a class="nav-link" href="#">
+                    <i class="material-icons">fact_check</i>
+                    <p>Reports</p>
+                </a>
+            </li>
+            <li class="nav-item {% if 'page-user' in segment %} active {% endif %}">
+                <a class="nav-link" href="{% url 'logout' %}">
+                    <i class="material-icons">power_settings_new</i>
+                    <p>Logout</p>
+                </a>
+            </li>
+            {% else %}
+             <li class="nav-item {% if 'page-user' in segment %} active {% endif %}">
+                <a class="nav-link" href="#">
+                    <i class="material-icons">fact_check</i>
+                    <p>Reports</p>
+                </a>
+            </li>
+            <li class="nav-item {% if 'page-user' in segment %} active {% endif %}">
+                <a class="nav-link" href="{% url 'logout' %}">
+                    <i class="material-icons">power_settings_new</i>
+                    <p>Logout</p>
+                </a>
+            </li>
+            {% endif %}
+        </ul>
+    </div>
+</div>
+

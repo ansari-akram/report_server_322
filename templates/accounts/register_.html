@@ -1,0 +1,249 @@
+{% extends "layouts/user_adoreta_base.html" %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+
+# Kindly check navigation as per user
+
+{% block content %}
+
+<!-- side bar -->
+<div class="sidebar" data-color="purple" data-background-color="white" data-image="/static/assets/img/sidebar-1.jpg">
+    <div class="logo">
+        <a target="_blank" rel="noopener noreferrer"
+           href="" class="simple-text logo-normal">
+            User Panel
+        </a>
+    </div>
+    <div class="sidebar-wrapper">
+        <ul class="nav">
+            {% if user.is_superuser %}
+            <li class="nav-item {% if 'page-user' in segment %} active {% endif %}">
+                <a class="nav-link" href="{% url 'report' %}">
+                    <i class="material-icons">fact_check</i>
+                    <p>Reports</p>
+                </a>
+            </li>
+            <li class="nav-item {% if 'page-user' in segment %} active {% endif %}">
+                <a class="nav-link" href="{% url 'user' %}">
+                    <i class="material-icons">person</i>
+                    <p>Users</p>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'advance_filter' %}">
+                    <i class="material-icons">file_download</i>
+                    <p>Export</p>
+                </a>
+            </li>
+            <li class="nav-item {% if 'page-user' in segment %} active {% endif %}">
+                <a class="nav-link" href="{% url 'logout' %}">
+                    <i class="material-icons">power_settings_new</i>
+                    <p>Logout</p>
+                </a>
+            </li>
+            {% else %}
+
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'department_data' depart_name %}">
+                    <i class="material-icons">fact_check</i>
+                    <p>Reports</p>
+                </a>
+            </li>
+
+            <li class="nav-item active">
+                <a class="nav-link" href="{% url 'register_' %}">
+                    <i class="material-icons">how_to_reg</i>
+                    <p>Register User</p>
+                </a>
+            </li>
+
+            <li class="nav-item {% if 'page-user' in segment %} active {% endif %}">
+                <a class="nav-link" href="{% url 'logout_' %}">
+                    <i class="material-icons">power_settings_new</i>
+                    <p>Logout</p>
+                </a>
+            </li>
+            {% endif %}
+        </ul>
+    </div>
+</div>
+<!-- end side bar -->
+
+<!--<div class="main-panel">-->
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
+    <div class="container-fluid">
+        <div class="navbar-wrapper">
+            <a href="https://kslivechatproj.web.app/" class="navbar-brand">
+                <span class="text-uppercase font-weight-bold">ZAYED UNIVERSITY [ Department : {{ depart_name }} ]</span>
+            </a>
+        </div>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" aria-controls="navigation-index"
+                aria-expanded="false" aria-label="Toggle navigation">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="navbar-toggler-icon icon-bar"></span>
+            <span class="navbar-toggler-icon icon-bar"></span>
+            <span class="navbar-toggler-icon icon-bar"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-end">
+            <ul class="navbar-nav">
+                {% if user.is_superuser %}
+                <li>
+                    <a href="">
+                        <div>Welcome {{ user.username }} !</div>
+                    </a>
+                </li>
+                {% else %}
+                <li>
+                    <a href="">
+                        <div>Welcome {{ name_title }} !</div>
+                    </a>
+                </li>
+                {% endif %}
+                <li class="nav-item dropdown">
+                    <a class="nav-link" href="#pablo" id="navbarDropdownProfile" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false">
+                        <i class="material-icons">person</i>
+                        <!--                  <p class="d-lg-none d-md-block">-->
+                        <!--                    Account-->
+                        <!--                  </p>-->
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownProfile">
+                        {% if user.is_superuser %}
+                        <a class="dropdown-item" href="{% url 'logout' %}">Log out</a>
+                        {% else %}
+                        <a class="dropdown-item" href="{% url 'logout_' %}">Log out</a>
+                        {% endif %}
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<!-- end navbar -->
+
+<!-- main form -->
+<div class="row">
+    <div class="col-md-5">
+        <div class="card">
+            <div class="card-header card-header-primary">
+                <h4 class="card-title">
+                    Register User
+                </h4>
+            </div>
+            <div class="card-body">
+                <h6 class="card-category">
+                    {% if msg and color == 'red' %}
+                    <span class="text-danger">{{ msg | safe }}</span>
+                    {% elif msg and color == 'green'%}
+                    <span class="text-success">{{ msg | safe }}</span>
+                    {% else %}
+                    Enter your credentials
+                    {% endif %}
+                </h6>
+                <br/>
+                {% if success %}
+                <p class="">
+                    Please <a href="{% url 'login_' %}" class="text-black text-small">authenticate</a> using the new
+                    account.
+                </p>
+                {% else %}
+                <form method="POST">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="bmd-label-floating">Username</label>
+                                <input type="text" class='form-control' id="username" name="username"
+                                       placeholder="Username" required>
+                            </div>
+                        </div>
+                    </div>
+                    <br/>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="bmd-label-floating">Email</label>
+                                <input type="text" class='form-control' id="email" name="email" placeholder="Email"
+                                       required>
+                            </div>
+                        </div>
+                    </div>
+                    <br/>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="bmd-label-floating">Password</label>
+                                <input type="password" class='form-control' id="password" name="password"
+                                       placeholder="Password" required>
+                            </div>
+                        </div>
+                    </div>
+                    <br/>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="bmd-label-floating">Confirm Password </label>
+                                <input type="password" class='form-control' id="confirm_password" name="confirm"
+                                       placeholder="Confirm password" required>
+                            </div>
+                            <strong><span id='message'></span></strong>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="bmd-label-floating">Select User Type</label>
+                                <select id="utype" name="utype" class="form-control" required>
+                                     <option value="" selected>Select User Type...</option>
+                                    {% for utype in list_usertype %}
+                                    <option value="{{ utype.usertype }}">{{ utype.usertype }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    {% if admin_type == 'admin' or user.is_superuser %}
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="input-group">
+                                <label class="bmd-label-floating">Select Department(s) </label>
+                                <select id="dtype" name="dtype" class="form-select" style="width: 350px"
+                                        size="{{list_dept|length}}" multiple required>
+                                    {% for dtype in list_dept %}
+                                    <option value="{{ dtype.department }}">{{ dtype.department }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                    <br/>
+                    <button type="submit" name="register" class="btn btn-primary pull-left">Register</button>
+                    &nbsp; &nbsp
+                    <div class="clearfix"></div>
+                </form>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end main form -->
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+<script>
+    $('#password, #confirm_password').on('keyup', function () {
+  if ($('#password').val() == $('#confirm_password').val()) {
+    $('#message').html('Password matched!').css('color', 'green');
+  } else
+    $('#message').html('Password did not match!').css('color', 'red');
+});
+
+</script>
+{% endblock javascripts %}
+

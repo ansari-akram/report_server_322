@@ -1,0 +1,86 @@
+{% extends "layouts/base_login.html" %}
+
+{% block title %} Login {% endblock %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header card-header-primary">
+                <h4 class="card-title">
+                    Department - Login
+                </h4>
+            </div>
+            <div class="card-body">
+
+                <h6 class="card-category">
+                    {% if msg %}
+                    <span class="text-danger">{{ msg | safe }}</span>
+                    {% else %}
+                    Enter your credentials
+                    {% endif %}
+                </h6>
+
+                <br/>
+
+                <form method="POST">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="bmd-label-floating">Username</label>
+                                <input type="text" class = 'form-control' id="username" name="username" placeholder="Username" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <br/>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="bmd-label-floating">Password</label>
+                                <input type="password" class = 'form-control' name="password" id="password" placeholder="Password" required>
+                            </div>
+                        </div>
+                    </div>
+                    <br/>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="input-group">
+                                <select id="dtype" name="dtype"  class='form-control' required>
+                                    <option value="" selected>Select Department...</option>
+                                    {% for dtype in list_dept %}
+                                    <option value="{{ dtype.department }}">{{ dtype.department }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <br/>
+                    <button type="submit" name="login" class="btn btn-primary pull-left">Login</button>
+
+                    &nbsp; &nbsp;
+<!--                    <span class="pull-right">-->
+<!--              Don't have an account? <a href="{% url 'register_' %}" class="text-primary">Register</a>-->
+<!--            </span><br>-->
+                    <span class="pull-right">
+              Login as <a href="{% url 'login' %}" class="text-primary">SuperAdmin</a>
+            </span>
+
+                    <div class="clearfix"></div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3"></div>
+</div>
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}{% endblock javascripts %}
